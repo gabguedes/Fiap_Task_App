@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/repository/supabase_repository.dart';
 
 import '../models/task_group.dart';
 
-class TaskGroupProvider extends ChangeNotifier {
+class TaskProvider extends ChangeNotifier {
   final _supabaseRepository = SupabaseRepository();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<TaskGroup> _taskGroups = [];
-  List<TaskGroup> get taskGroups => _taskGroups;
+  List<Task> _tasks = [];
+  List<Task> get tasks => _tasks;
 
-  Future<void> listTaskGroups() async {
+  Future<void> listTasksByGroup(String groupId) async {
     _isLoading = true;
     notifyListeners();
     try {
-      _taskGroups = await _supabaseRepository.listTasksGroups();
+      _tasks = await _supabaseRepository.listTasksByGroup(groupId);
     } catch (e) {
       print(e);
     } finally {
